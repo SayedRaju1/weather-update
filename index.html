@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        #city-name {
+            text-transform: capitalize;
+        }
+
+        .btn-danger {
+            background: rgb(253, 0, 97);
+        }
+
+        #name {
+            background: rgb(209, 117, 12);
+        }
+
+        .header {
+            padding: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="text-center header">Weather Update</h1>
+        <h6 class="text-center"> by <span id="name"> Sayed Raju</span></h6>
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" id="city-name" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" id="search-btn" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img id="icon-url" src="" alt="">
+            <h1><span id="city-onpage"></span></h1>
+            <h3><span id="temp-now"></span></h3>
+            <h1 class="lead"> <span id="weather-type"></span></h1>
+        </div>
+    </div>
+    <script>
+        document.getElementById('search-btn').addEventListener('click', function () {
+            const cityName = document.getElementById('city-name').value;
+            const callUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=metric&appid=6f06d0b7d1fd4e23b770d5bbd7eddab7';
+
+
+            fetch(callUrl)
+                .then(res => res.json())
+                .then(data => {
+
+                    document.getElementById('weather-type').innerText = data.weather[0].description;
+                    document.getElementById('city-onpage').innerText = cityName.toUpperCase();
+                    document.getElementById('temp-now').innerText = data.main.temp + ('  °C');
+                    document.getElementById('icon-url').src = 'https://openweathermap.org/img/wn/' + data.weather[0].icon + '@2x.png';
+
+                })
+
+
+        })
+    </script>
+</body>
+
+</html>
